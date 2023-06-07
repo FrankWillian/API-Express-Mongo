@@ -37,6 +37,17 @@ app.post('/session', async (req,res) => {
     }
 })
 
+app.post('/todo/:user_id', async (req, res) => {
+    const { description, done } = req.body
+    const { user_id } = req.params
+    try {
+        const newTodo = await Todo.create({ description, done, user: user_id})
+        return res.status(200).send(newTodo)
+    } catch(err) {
+        return res.status(400).send(err)
+    }
+})
+
 app.listen(PORT, () => console.log(`Server is running ${PORT}`))
 
 
