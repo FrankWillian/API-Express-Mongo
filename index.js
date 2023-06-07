@@ -48,6 +48,16 @@ app.post('/todo/:user_id', async (req, res) => {
     }
 })
 
+app.get('/todo/:user_id', async (req, res) => {
+    const { user_id } = req.params
+    try {
+        const allTodos = await Todo.find({user: user_id})
+        return res.status(200).send(allTodos)
+    } catch(err) {
+        return res.status(400).send(err)
+    }
+})
+
 app.listen(PORT, () => console.log(`Server is running ${PORT}`))
 
 
