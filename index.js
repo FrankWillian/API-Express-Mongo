@@ -58,16 +58,30 @@ app.get('/todo/:user_id', async (req, res) => {
     }
 })
 
-app.patch('/todo/:todo_id', async (req, res => {
+app.patch('/todo/:todo_id', async (req, res) => {
     const data = req.body
     const { todo_id } = req.params
     try {
-        const updatedTodo = Todo.findByIdAndUpdate(todo_id, data, {new: true})
+        const updatedTodo = await Todo.findByIdAndUpdate(todo_id, data, {new: true})
         return res.status((200).send(updatedTodo))
     } catch(err){
         return res.status(400).send(err)
     }
 }))
+
+app.delete('/todo/:todo_id', async (req, res) =>{
+    const {todo_id} = req.params
+    try {
+        const deletedTodo = await Todo.findByIdAndRemove(todo_id)
+        return res.status(200).send({
+            message: 'Todo deletado com sucesso',
+            deletedTodo
+        })
+    } catch(err){
+        return res.status(400).send(err)
+    }
+})
+
 
 app.listen(PORT, () => console.log(`Server is running ${PORT}`))
 
