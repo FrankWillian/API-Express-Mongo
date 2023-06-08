@@ -58,10 +58,11 @@ app.get('/todo/:user_id', async (req, res) => {
     }
 })
 
-app.patch('/todo/:todo_id', async (req, res) => {
+app.patch('/todo/:user_id/:todo_id', async (req, res) => {
     const data = req.body
-    const { todo_id } = req.params
+    const { todo_id, user_id} = req.params
     try {
+        const belongsToUser = await Todo.findOne({ user: user_id})
         const updatedTodo = await Todo.findByIdAndUpdate(todo_id, data, {new: true})
         return res.status((200).send(updatedTodo))
     } catch(err){
