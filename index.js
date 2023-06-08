@@ -58,6 +58,17 @@ app.get('/todo/:user_id', async (req, res) => {
     }
 })
 
+app.patch('/todo/:todo_id', async (req, res => {
+    const data = req.body
+    const { todo_id } = req.params
+    try {
+        const updatedTodo = Todo.findByIdAndUpdate(todo_id, data, {new: true})
+        return res.status((200).send(updatedTodo))
+    } catch(err){
+        return res.status(400).send(err)
+    }
+}))
+
 app.listen(PORT, () => console.log(`Server is running ${PORT}`))
 
 
