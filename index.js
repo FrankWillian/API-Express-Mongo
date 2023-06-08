@@ -70,6 +70,7 @@ app.patch('/todo/:user_id/:todo_id', async (req, res) => {
     const { todo_id, user_id} = req.params
     try {
         const belongsToUser = await Todo.findOne({ user: user_id})
+        if (!belongsToUser) return res.status(400).send('Operation not allowed')
         const updatedTodo = await Todo.findByIdAndUpdate(todo_id, data, {new: true})
         return res.status((200).send(updatedTodo))
     } catch(err){
@@ -77,9 +78,11 @@ app.patch('/todo/:user_id/:todo_id', async (req, res) => {
     }
 })
 
-app.delete('/todo/:todo_id', async (req, res) =>{
-    const {todo_id} = req.params
+app.delete('/todo/:user_id/:todo_id', async (req, res) =>{
+    const {todo_id, user_id} = req.params
     try {
+        const belongsToUser = await Todo.findOne({ user: user_id})
+        if (!belongsToUser) return res.status(400).send('Operation not allowed')
         const deletedTodo = await Todo.findByIdAndRemove(todo_id)
         return res.status(200).send({
             message: 'Todo deletado com sucesso',
