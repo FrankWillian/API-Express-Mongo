@@ -1,11 +1,17 @@
-const express = require('express')
+// Iniciando uma API com Express
+
+// Importando as dependências necessárias
 const mongoose = require('mongoose')
 
-
+// Iniciando o servidor
 const PORT = 3333
+const express = require('express')
+app.listen(PORT, () => console.log(`Server is running ${PORT}`))
 
+// Criando uma instância do Express
 const app = express()
 
+// Middleware para processar o corpo das requisições como JSON
 app.use(express.json())
 
 mongoose.connect('url/banco', {
@@ -19,6 +25,7 @@ const TodoSchema = new mongoose.Schema({ description: String, done: Boolean, use
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User'
 }})
+
 const Todo = mongoose.model('Todo', TodoSchema)
 
 app.get('/', (req,res) => {console.log('hello world')});
@@ -82,8 +89,3 @@ app.delete('/todo/:todo_id', async (req, res) =>{
         return res.status(400).send(err)
     }
 })
-
-
-app.listen(PORT, () => console.log(`Server is running ${PORT}`))
-
-
