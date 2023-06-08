@@ -67,7 +67,7 @@ app.patch('/todo/:todo_id', async (req, res) => {
     } catch(err){
         return res.status(400).send(err)
     }
-}))
+})
 
 app.delete('/todo/:todo_id', async (req, res) =>{
     const {todo_id} = req.params
